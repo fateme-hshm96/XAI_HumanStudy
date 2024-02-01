@@ -1,0 +1,1168 @@
+<html lang="en">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+
+<!-- BOOTSTRAP CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- HITPUB CSS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+<style id="hitpub_css">
+  /***********************************************
+                        MOSAIC BOOSTRAP OVERWRITES
+                        ***********************************************/
+  #hitinfo .card {
+    border-radius: 0;
+  }
+
+  #hitinfo button.btn-link {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  #hitinfo button.btn-link:hover {
+    text-decoration: none;
+  }
+
+  #hit ul.question-choice {
+    list-style-type: none;
+  }
+
+  #timer-container {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-color: #09a9a9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    z-index: 1000;
+  }
+
+
+  /***********************************************
+                        MOSAIC GENERAL STYLING
+                        ***********************************************/
+  body {
+    font-family: "Open Sans", "Roboto", sans-serif;
+    line-height: 1.25;
+  }
+
+  textarea#feedback {
+    width: 100%
+  }
+
+  input#submitButton {
+    margin: auto;
+    display: block;
+    background-color: #2172a4;
+    color: #fff;
+    font-size: 1.125rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+
+  input#submitButton:hover {
+    background-color: #06486F;
+  }
+
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
+  div.goal-category {
+    border-bottom: solid 1px #ccc;
+    padding: 1rem 1rem;
+  }
+
+  li {
+    margin: 0.6em;
+  }
+
+  table {
+    width: 80%;
+    margin: 5px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  th {
+    width: 20%;
+    background-color: #fff;
+    font-weight: normal;
+    text-align: center;
+    padding: 0.5em;
+  }
+
+
+  td {
+    padding-left: 20px;
+    padding-right: 10px;
+  }
+
+  em {
+    height: 60px;
+    width: 900px;
+  }
+
+  /***********************************************
+                        HIT CUSTOM GENERAL STYLING
+                        ***********************************************/
+  div.card-header {
+    background-color: #06486F;
+  }
+
+  div.card-header h5 {
+    color: #fff !important;
+  }
+
+
+  .question-choice-container label.btn {
+    background-color: #eee;
+    border: #ccc 1px solid;
+    margin-left: 0 !important;
+    color: black;
+  }
+
+
+  .legend {
+    margin-top: .33rem;
+    font-weight: normal;
+    padding-left: 40px;
+  }
+
+  .legend .label {
+    font-style: italic;
+  }
+
+  .emphasize {
+    font-weight: bold;
+    color: black;
+    font-style: italic;
+  }
+
+  /* BUTTON */
+  .btn {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    /* margin: 15px; */
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+
+  /*  */
+
+  /* Style for the reveal button */
+  .reveal-button {
+    position: relative;
+    padding: 20px;
+    margin-left: 5px;
+    font-size: 18px;
+    background-color: #fd8700;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+
+  .reveal-button:hover {
+    background-color: #feb600;
+  }
+
+  /* Style for the reveal container */
+  .reveal-container {
+    text-align: center;
+    display: none;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Style for the loading GIF */
+  .loading-gif {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(150%, -50%);
+    width: 120px;
+    display: none;
+  }
+
+  /* Style for the text info */
+  .text-info {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(10%, -55%);
+    width: 1000px;
+    display: none;
+    font-size: 18px;
+    text-align: left;
+  }
+
+  /* * * * * */
+  /* Likert scale confidecne */
+  .likert-container {
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .likert-label {
+    /* display: inline-flex; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65px;
+    min-width: 110px;
+    margin: 17px;
+    padding: 10px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .likert-container h5 {
+    margin-right: 40px;
+    white-space: nowrap;
+  }
+
+  .likert-label:hover {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .likert-input {
+    display: none;
+  }
+
+  .likert-label-checked {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .likert-label-selected {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  /* CONSENT FORM */
+  .consent {
+    max-width: 1050px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    line-height: 1.66;
+    text-align: left;
+  }
+
+  #agree-btn {
+    background-color: #42974d;
+    color: #fff;
+    padding: 12px 24px;
+    margin: 10px auto;
+    margin-left: 270px;
+    font-size: 19px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #agree-btn:hover {
+    background-color: #2f6e37;
+  }
+
+  .email-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .email-error-message {
+    color: red;
+    font-size: 12px;
+  }
+
+  .consent p {
+    color: #555;
+    font-size: 17;
+  }
+
+
+
+
+  .example {
+    pointer-events: none;
+  }
+
+  .title {
+    font-style: italic;
+  }
+
+  .entity {
+    color: blue;
+    font-weight: bold;
+  }
+
+  .use {
+    color: purple;
+    font-weight: bold;
+  }
+
+  .btn-group-xs>.btn,
+  .btn-xs {
+    padding: .4rem .4rem;
+    font-size: .8rem;
+    line-height: 1.2;
+    border-radius: .2rem;
+  }
+
+  .card-body {
+    background-color: #fbfbfb;
+  }
+
+  .concept_a {
+    color: #0072B2;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .concept_b {
+    color: #D55E00;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .concept_c {
+    color: #aa00d5;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .concept_d {
+    color: #008d4b;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .sm-bold {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 80%;
+  }
+
+  .partButton {
+    margin: auto;
+    display: block;
+    background-color: #2172a4;
+    color: #fff;
+    font-size: 1.525rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    margin-top: 15px;
+    min-width: 350px;
+  }
+
+  label[for="2"]:hover,
+  label[for="2"].active {
+    background-color: #02523C !important;
+    color: white;
+  }
+
+  label[for="1"]:hover,
+  label[for="1"].active {
+    background-color: #047D5C !important;
+    color: white;
+  }
+
+  label[for="0"]:hover,
+  label[for="0"].active {
+    background-color: rgb(212, 216, 1) !important;
+    color: white;
+  }
+
+  label[for="-1"]:hover,
+  label[for="-1"].active {
+    background-color: #c20000 !important;
+    color: white;
+  }
+
+  label[for="-2"]:hover,
+  label[for="-2"].active {
+    background-color: rgb(136, 0, 0) !important;
+    color: white;
+  }
+
+  label[for="-9"]:hover,
+  label[for="-9"].active {
+    background-color: rgb(73, 73, 73) !important;
+    color: white;
+  }
+
+  .negOne-background {
+    background-color: #c20000;
+  }
+
+  .negTwo-background {
+    background-color: rgb(136, 0, 0);
+  }
+
+  .zero-background {
+    background-color: rgb(212, 216, 1);
+  }
+
+  .one-background {
+    background-color: #047D5C;
+  }
+
+  .negNine-background {
+    background-color: rgb(73, 73, 73);
+  }
+</style>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+<!-- CONSENT FORM -->
+<div id="consent-container" class="consent">
+  <br>
+  <h1>Study Consent</h1>
+  <br>
+  <p>This research study aims to evaluate the usefulness of AI assistance in decision-making.
+  </p>
+  <p>In the process of this study, you are asked to verify a statement based on a given text. You have access to an AI
+    model's decision and its confidence for solving the same verification task.</p>
+  <p>You will be compensated according to the number of tasks you complete.
+    Please note that you will be compensated for each completed task whether or not your provided answer is correct.</p>
+  <p>The potential risk to participants is minimal. We will not collect any identifying information during the study.
+  </p>
+  <p>We will use the data collected in this study for research purposes only.</p>
+  <p>If you have any questions or complaints or if you feel this research has harmed you,
+    please contact Ana Marasović,
+    Kahlert School of Computing, 50 Central Campus Dr, Salt Lake City, UT 84112, Room MEB 2166,
+    e-mail: <b>ana.marasovic@utah.edu.</b>
+  </p>
+  <p>Contact the Institutional Review Board (IRB) if you have questions about your research participant rights.
+    Also, contact the IRB if you have questions, complaints, or concerns you do not feel you can discuss with the
+    investigator. The University of Utah IRB may be reached by e-mail at <b>irb@hsc.utah.edu</b>.</p>
+  <p>You may choose to complete as many or as few tasks as possible. Participation in this study is voluntary.
+    You may choose to withdraw your participation from the study at any time without penalty.
+    By answering survey questions, you are giving your consent to participate.</p>
+  <p>We appreciate your participation.</p>
+
+  <form>
+    <p><i><b>If you are an international student, please make sure to enter your email address below (used for
+          compensation only):</b></i>
+    </p>
+    <input type="email" class="email-input" placeholder="email address"
+      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Enter a valid email address">
+    <div class="email-error-message"></div>
+  </form>
+
+  <button id="agree-btn" onclick="showInstructionsAfterConsent();">I have read and agree to the terms and
+    conditions.</button>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+<!-- HIT START -->
+<div id="hit" class="container" style="display: none;">
+
+  <!-- ACCORDION START -->
+  <div class="col-12 accordion" id="hitinfo">
+
+    <!-- INSTRUCTIONS START -->
+    <div class="card">
+      <div class="card-header" id="instructionsHeading">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#instructions"
+            aria-expanded="false" aria-controls="instructions">
+            Instructions (click to collapse/expand)
+          </button>
+        </h5>
+      </div>
+    </div>
+
+    <div id="timer-container">
+      <p>Timer</p>
+      <div id="timer">00:00</div>
+    </div>
+
+    <div class="collapse show" id="instructions" aria-labelledby="instructionsHeading">
+      <div class="card-body">
+        <div class="card-content">
+
+          <p style="font-size: 18;"><b>Thank you for participating in this HIT!</b></p>
+          <p>Starting now, you have at most <i>10 minutes</i> to read the instructions and complete each HIT.</p>
+
+          <p style="font-size: 18;"><b>Task Overview:</b></p>
+          <ul>
+            <li>Evaluate <b>a statement</b> in the context of a provided <b>Non-Disclosure Agreement (NDA)</b> text.
+            </li>
+            <li>Determine if the statement is true, false, or if there's insufficient information to decide.</li>
+            <ul>
+              <li>You have the ability to <b>search</b> through the NDA PDF file.</li>
+              <li>To do so, click once on the PDF you want to search in and then Ctrl+F/Command+F to search.</li>
+            </ul>
+            <li>Report your confidence level in your answer's correctness.</li>
+          </ul>
+
+          <p style="font-size: 18;"><b>Additional Guidance:</b></p>
+          <ul>
+            <li>You have access to an AI model designed specifically for this task.</li>
+            <li>We provide you with the AI model's guess for each sample along with an estimate of its confidence in the answer.</li>
+            <li>The confidence score indicates the probability of the AI's suggestion being correct.</li>
+            <ul>
+              <li>We calculate the confidence score with research techniques.</li>
+            </ul>
+          </ul>
+
+          <p style="font-size: 18;"><b>AI Model's Accuracy for Each Group of Statements:</b></p>
+          <table border="1">
+            <tr>
+              <td height="35">True statements</td>
+              <td height="35"><b>93%</b></td>
+            </tr>
+            <tr>
+              <td height="35">False statements</td>
+              <td height="35"><b>75%</b></td>
+            </tr>
+            <tr>
+              <td height="35">Statements for which there is not enough information to determine their truthfulness</td>
+              <td height="35"><b>90%</b></td>
+            </tr>
+          </table>
+
+          </br>
+
+          <p>You have the flexibility to choose whether or not to use the AI model’s assistance in your assessment of
+            statements.</p>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTRUCTIONS END -->
+
+    <!-- - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- MAIN EXAMPLE START -->
+    <div class="card">
+      <div class="card-header" id="mainExampleHeading">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#mainExample"
+            aria-expanded="false" aria-controls="mainExample">
+            Examples (click to collapse/expand)
+          </button>
+        </h5>
+      </div>
+      <div class="collapse show" id="mainExample" aria-labelledby="mainExampleHeading">
+        <div class="card-body">
+          <div class="card-content col-12">
+
+
+
+            <!-- - - - - - - - - - - - - - - - - - - - -->
+            <!-- Example 1 -->
+            <div>
+
+              </br>
+              <div>
+                <h4>Example #1</h4>
+              </div>
+              </br>
+
+
+              <!-- Statement -->
+              <div style="border: 5px solid #00aeef; padding: 10px 20px 10px 20px;"><strong> Statement:
+                </strong>Agreement shall not grant Receiving Party any right to Confidential Information.
+              </div>
+              <!--  -->
+
+              <!-- Options -->
+              <div id="mainExample-1" class="question">
+                <div class="question-header question-choice-container pl-5 mb-2 pt-2 pb-2 border-bottom">
+                  <div class="row row-12 pl-3 pt-2">
+                    <em> Is this statement true or false based on the NDA
+                      <b>below</b>, or is not enough information
+                      provided in the NDA to determine the truthfulness of the statement? </em>
+                    </br>
+                  </div>
+
+                  <div class="row-12 pt-1 btn-group-container col-5">
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-secondary btn-sm" for="1">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_1" autocomplete="off"
+                          value="1" required>
+                        True
+                      </label>
+                      <label class="btn btn-secondary btn-sm" for="-1">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_2" autocomplete="off"
+                          value="0" required>
+                        False
+                      </label>
+                      <label class="btn btn-secondary btn-sm" for="0">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_3" autocomplete="off"
+                          value="-1" required>
+                        Not Enough Information
+                      </label>
+                    </div>
+                    <!--  -->
+                    <!-- Self-Confidence -->
+
+                    <div class="likert-container">
+                      <h5>Self-confidence:</h5>
+
+                      <label class="likert-label" for="conf-1-1" onclick="updateColor('conf-1-1')">Pure guess</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-1-1" value="1">
+
+                      <label class="likert-label" for="conf-2-1" onclick="updateColor('conf-2-1')">Doubtful</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-2-1" value="2">
+
+                      <label class="likert-label" for="conf-3-1" onclick="updateColor('conf-3-1')">Moderately
+                        confident</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-3-1" value="3">
+
+                      <label class="likert-label" for="conf-4-1" onclick="updateColor('conf-4-1')">High certainty
+                      </label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-4-1" value="4">
+
+                      <label class="likert-label" for="conf-5-1" onclick="updateColor('conf-5-1')">Absolutely
+                        certain</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-5-1" value="5">
+                    </div>
+
+                    <!--  -->
+                    <!-- Model's Guess -->
+
+                    <button id="revealButton0" class="reveal-button" onclick="reveal('revealContainer0')">Reveal AI's
+                      Guess</button>
+                    <div id="revealContainer0" class="reveal-container">
+                      <img class="loading-gif" src="https://contract-nli.s3.us-east-2.amazonaws.com/loading5.gif"
+                        alt="Loading...">
+                      <div class="text-info">
+
+                        AI Assistant Guess:
+                        <button type="button" class="btn btn-secondary btn-sm btm-info one-background">True</button>
+                        <br />
+                        <br />
+                        AI Assistant Confidence: <strong> 91% </strong>
+
+                      </div>
+                    </div>
+                    </br>
+                    </br>
+
+                    <!--  -->
+
+                  </div>
+                </div>
+
+                <!-- NDA PDF -->
+                <iframe src="https://contract-nli.s3.us-east-2.amazonaws.com/ex1.pdf" width="100%" height="700px">
+                </iframe>
+                <br />
+                <!--  -->
+
+              </div>
+            </div>
+
+            <!-- - - - - - - - - - - - - - - - - - - - -->
+            <!-- Example 2 -->
+            <div>
+
+              </br>
+              <div>
+                <h4>Example #2</h4>
+              </div>
+              </br>
+
+
+              <!-- Statement -->
+              <div style="border: 5px solid #00aeef; padding: 10px 20px 10px 20px;"><strong> Statement:
+                </strong>Confidential Information shall only include technical information.
+              </div>
+              <!--  -->
+
+              <!-- Options -->
+              <div id="mainExample-1" class="question">
+                <div class="question-header question-choice-container pl-5 mb-2 pt-2 pb-2 border-bottom">
+                  <div class="row row-12 pl-3 pt-2">
+                    <em> Is this statement true or false based on the NDA <b>below</b>, or is not enough information
+                      provided in the NDA to determine the truthfulness of the statement? </em>
+                    </br>
+                  </div>
+
+                  <div class="row-12 pt-1 btn-group-container col-5">
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-secondary btn-sm" for="1">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_1" autocomplete="off"
+                          value="1" required>
+                        True
+                      </label>
+                      <label class="btn btn-secondary btn-sm" for="-1">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_2" autocomplete="off"
+                          value="0" required>
+                        False
+                      </label>
+                      <label class="btn btn-secondary btn-sm" for="0">
+                        <input class="btm-info" type="radio" name="me1_valid" id="me1_valid_3" autocomplete="off"
+                          value="-1" required>
+                        Not Enough Information
+                      </label>
+                    </div>
+                    <!--  -->
+                    <!-- Self-Confidence -->
+
+                    <div class="likert-container">
+                      <h5>Self-confidence:</h5>
+
+                      <label class="likert-label" for="conf-1-2" onclick="updateColor('conf-1-2')">Pure Guess</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-1-2" value="1">
+
+                      <label class="likert-label" for="conf-2-2" onclick="updateColor('conf-2')">Doubtful</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-2" value="2">
+
+                      <label class="likert-label" for="conf-3-2" onclick="updateColor('conf-3-2')">Moderately
+                        confident</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-3-2" value="3">
+
+                      <label class="likert-label" for="conf-4-2" onclick="updateColor('conf-4-2')">High
+                        certainty</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-4-2" value="4">
+
+                      <label class="likert-label" for="conf-5-2" onclick="updateColor('conf-5-2')">Absolutely
+                        certain</label>
+                      <input type="radio" class="likert-input" name="confidence" id="conf-5-2" value="5">
+                    </div>
+
+                    <!--  -->
+                    <!-- Model's Guess -->
+
+                    <button id="revealButton2" class="reveal-button" onclick="reveal('revealContainer2')">Reveal AI's
+                      Guess</button>
+                    <div id="revealContainer2" class="reveal-container">
+                      <img class="loading-gif" src="https://contract-nli.s3.us-east-2.amazonaws.com/loading5.gif"
+                        alt="Loading...">
+                      <div class="text-info">
+
+                        AI Assistant Guess:
+                        <button type="button" class="btn btn-secondary btn-sm btm-info negOne-background">False</button>
+                        <br />
+                        <br />
+                        AI Assistant Confidence: <strong> 77% </strong>
+
+                      </div>
+                    </div>
+                    <br />
+                    <br />
+                    <!--  -->
+
+                  </div>
+                </div>
+
+                <!-- NDA PDF -->
+                <iframe src="https://contract-nli.s3.us-east-2.amazonaws.com/ex2.pdf" width="100%" height="700px">
+                </iframe>
+                <br />
+                <!--  -->
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MAIN EXAMPLE END -->
+
+  </div>
+  <!-- ACCORDION END -->
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!-- MTURK INPUT START -->
+  <div class="card">
+    <div class="col-12 mt-3 mb-1 border-top">
+
+      <form name='mturk_form' method='post' id='mturk_form' action='https://www.mturk.com/mturk/externalSubmit'>
+        <input type='hidden' value='' name='assignmentId' id='assignmentId' />
+        <input type='hidden' name='ee' id='ee' />
+
+
+        <div id="Part1Div" name="Part1Div" style="display:show">
+          <br>
+
+          <div class="card-header" id="examplesHeading">
+            <h5 class="mb-0">
+              The Actual HIT
+            </h5>
+          </div>
+          <br>
+          <!-- - - - - - - - - - - - - - - - - - - - -->
+
+          <!-- Statement -->
+          <div style="border: 5px solid #00aeef; padding: 10px 20px 10px 20px;"><strong> Statement:
+            </strong>${target_statement}
+          </div>
+          <!--  -->
+
+          <!-- Options -->
+          <div id="mainExample-1" class="question">
+            <div class="question-header question-choice-container pl-5 mb-2 pt-2 pb-2 border-bottom">
+              <div class="row row-12 pl-3 pt-2">
+                <em> Is this statement true or false based on the NDA <b>below</b>, or is not enough information
+                  provided in the NDA to determine the truthfulness of the statement? </em>
+                </br>
+              </div>
+
+              <div class="row-12 pt-1 btn-group-container col-5">
+
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-secondary btn-sm" for="1">
+                    <input class="btm-info" type="radio" name="me1_valid_hit" id="me1_valid_1" autocomplete="off"
+                      value="1" required>
+                    True
+                  </label>
+                  <label class="btn btn-secondary btn-sm" for="-1">
+                    <input class="btm-info" type="radio" name="me1_valid_hit" id="me1_valid_2" autocomplete="off"
+                      value="0" required>
+                    False
+                  </label>
+                  <label class="btn btn-secondary btn-sm" for="0">
+                    <input class="btm-info" type="radio" name="me1_valid_hit" id="me1_valid_3" autocomplete="off"
+                      value="-1" required>
+                    Not Enough Information
+                  </label>
+                </div>
+                <!--  -->
+                <!-- Self-Confidence -->
+
+                <div class="likert-container">
+                  <h5>Self-confidence:</h5>
+
+                  <label class="likert-label" for="conf-1-h1" onclick="updateColor('conf-1-h1')">
+                  <input type="radio" class="likert-input" name="confidence_hit" id="conf-1-h1" value="1" required>Pure guess
+                </label>
+
+                  <label class="likert-label" for="conf-2-h1" onclick="updateColor('conf-2-h1')">
+                  <input type="radio" class="likert-input" name="confidence_hit" id="conf-2-h1" value="2" required>Doubtful</label>
+
+                  <label class="likert-label" for="conf-3-h1" onclick="updateColor('conf-3-h1')">
+                  <input type="radio" class="likert-input" name="confidence_hit" id="conf-3-h1" value="3" required>Moderately
+                  confident</label>
+
+                  <label class="likert-label" for="conf-4-h1" onclick="updateColor('conf-4-h1')">
+                  <input type="radio" class="likert-input" name="confidence_hit" id="conf-4-h1" value="4" required>
+                  High certainty</label>
+
+                  <label class="likert-label" for="conf-5-h1" onclick="updateColor('conf-5-h1')">
+                  <input type="radio" class="likert-input" name="confidence_hit" id="conf-5-h1" value="5" required>Absolutely
+                  certain</label>
+                </div>
+
+                <!--  -->
+                <!-- Model's Guess -->
+
+                <button id="revealButton1" class="reveal-button" onclick="reveal('revealContainer1')">Reveal
+                  AI's Guess</button>
+                <div id="revealContainer1" class="reveal-container">
+                  <img id="loadingGif" src="https://contract-nli.s3.us-east-2.amazonaws.com/loading5.gif"
+                    alt="Loading..." class="loading-gif">
+                  <div id="textInfo" class="text-info">
+
+                    AI Assistant Guess:
+                    <button type="button"
+                      class="btn btn-secondary btn-sm btm-info ${button_color}">${predicted_label}</button>
+                    <br />
+                    <br />
+                    AI Assistant Confidence: <strong> ${confidence_score}% </strong>
+
+                  </div>
+                </div>
+
+                <br />
+                <br />
+
+              </div>
+            </div>
+
+            <!-- NDA PDF -->
+            <!-- <iframe src="hitfiles/1.pdf" width="100%" height="700px"> </iframe> -->
+            <iframe src="${nda_file_name}" width="100%" height="700px"> </iframe>
+            <br />
+            <!--  -->
+
+          </div>
+
+          <!-- <button type="button" class="partButton" name="partButton" id="partButton"
+            onclick="submitFormWithValidation()"> Submit </button> -->
+          <!-- <button type="button" class="partButton" name="partButton" id="partButton" onclick="taskAndConfideceComplete()"> Submit
+          </button> -->
+          
+          <!-- SUBMIT BUTTON -->
+          <div class="row mt-5">
+            <div class="col-2 offset-5">
+                <input id="submitButton" onclick="submitFormWithValidation()" type="submit" value="Submit">
+            </div>
+          </div>
+
+        </div>
+
+
+      </form>
+
+      <script language='Javascript'>turkSetAssignmentID();</script>
+    </div>
+    <!-- MTURK INPUT END -->
+
+  </div>
+
+
+  <!-- HIT END -->
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+<!-- BOOSTRAP JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- HITPUB JS -->
+<script id="hitpub_js">
+  // TimeMe.js
+  (function () { var e, t; e = this, t = function () { var r = { startStopTimes: {}, idleTimeoutMs: 3e4, currentIdleTimeMs: 0, checkStateRateMs: 250, active: !1, idle: !1, currentPageName: "default-page-name", timeElapsedCallbacks: [], userLeftCallbacks: [], userReturnCallbacks: [], trackTimeOnElement: function (e) { var t = document.getElementById(e); t && (t.addEventListener("mouseover", function () { r.startTimer(e) }), t.addEventListener("mousemove", function () { r.startTimer(e) }), t.addEventListener("mouseleave", function () { r.stopTimer(e) }), t.addEventListener("keypress", function () { r.startTimer(e) }), t.addEventListener("focus", function () { r.startTimer(e) })) }, getTimeOnElementInSeconds: function (e) { var t = r.getTimeOnPageInSeconds(e); return t || 0 }, startTimer: function (e, t) { if (e || (e = r.currentPageName), void 0 === r.startStopTimes[e]) r.startStopTimes[e] = []; else { var n = r.startStopTimes[e], i = n[n.length - 1]; if (void 0 !== i && void 0 === i.stopTime) return } r.startStopTimes[e].push({ startTime: t || new Date, stopTime: void 0 }), r.active = !0, r.idle = !1 }, stopAllTimers: function () { for (var e = Object.keys(r.startStopTimes), t = 0; t < e.length; t++)r.stopTimer(e[t]) }, stopTimer: function (e, t) { e || (e = r.currentPageName); var n = r.startStopTimes[e]; void 0 !== n && 0 !== n.length && (void 0 === n[n.length - 1].stopTime && (n[n.length - 1].stopTime = t || new Date), r.active = !1) }, getTimeOnCurrentPageInSeconds: function () { return r.getTimeOnPageInSeconds(r.currentPageName) }, getTimeOnPageInSeconds: function (e) { var t = r.getTimeOnPageInMilliseconds(e); return void 0 === t ? void 0 : t / 1e3 }, getTimeOnCurrentPageInMilliseconds: function () { return r.getTimeOnPageInMilliseconds(r.currentPageName) }, getTimeOnPageInMilliseconds: function (e) { var t = r.startStopTimes[e]; if (void 0 !== t) { for (var n = 0, i = 0; i < t.length; i++) { var s = t[i].startTime, o = t[i].stopTime; void 0 === o && (o = new Date), n += o - s } return Number(n) } }, getTimeOnAllPagesInSeconds: function () { for (var e = [], t = Object.keys(r.startStopTimes), n = 0; n < t.length; n++) { var i = t[n], s = r.getTimeOnPageInSeconds(i); e.push({ pageName: i, timeOnPage: s }) } return e }, setIdleDurationInSeconds: function (e) { var t = parseFloat(e); if (!1 !== isNaN(t)) throw { name: "InvalidDurationException", message: "An invalid duration time (" + e + ") was provided." }; return r.idleTimeoutMs = 1e3 * e, this }, setCurrentPageName: function (e) { return r.currentPageName = e, this }, resetRecordedPageTime: function (e) { delete r.startStopTimes[e] }, resetAllRecordedPageTimes: function () { for (var e = Object.keys(r.startStopTimes), t = 0; t < e.length; t++)r.resetRecordedPageTime(e[t]) }, resetIdleCountdown: function () { r.idle && r.triggerUserHasReturned(), r.idle = !1, r.currentIdleTimeMs = 0 }, callWhenUserLeaves: function (e, t) { this.userLeftCallbacks.push({ callback: e, numberOfTimesToInvoke: t }) }, callWhenUserReturns: function (e, t) { this.userReturnCallbacks.push({ callback: e, numberOfTimesToInvoke: t }) }, triggerUserHasReturned: function () { if (!r.active) for (var e = 0; e < this.userReturnCallbacks.length; e++) { var t = this.userReturnCallbacks[e], n = t.numberOfTimesToInvoke; (isNaN(n) || void 0 === n || 0 < n) && (t.numberOfTimesToInvoke -= 1, t.callback()) } r.startTimer() }, triggerUserHasLeftPage: function () { if (r.active) for (var e = 0; e < this.userLeftCallbacks.length; e++) { var t = this.userLeftCallbacks[e], n = t.numberOfTimesToInvoke; (isNaN(n) || void 0 === n || 0 < n) && (t.numberOfTimesToInvoke -= 1, t.callback()) } r.stopAllTimers() }, callAfterTimeElapsedInSeconds: function (e, t) { r.timeElapsedCallbacks.push({ timeInSeconds: e, callback: t, pending: !0 }) }, checkState: function () { for (var e = 0; e < r.timeElapsedCallbacks.length; e++)r.timeElapsedCallbacks[e].pending && r.getTimeOnCurrentPageInSeconds() > r.timeElapsedCallbacks[e].timeInSeconds && (r.timeElapsedCallbacks[e].callback(), r.timeElapsedCallbacks[e].pending = !1); !1 === r.idle && r.currentIdleTimeMs > r.idleTimeoutMs ? (r.idle = !0, r.triggerUserHasLeftPage()) : r.currentIdleTimeMs += r.checkStateRateMs }, visibilityChangeEventName: void 0, hiddenPropName: void 0, listenForVisibilityEvents: function () { void 0 !== document.hidden ? (r.hiddenPropName = "hidden", r.visibilityChangeEventName = "visibilitychange") : void 0 !== document.mozHidden ? (r.hiddenPropName = "mozHidden", r.visibilityChangeEventName = "mozvisibilitychange") : void 0 !== document.msHidden ? (r.hiddenPropName = "msHidden", r.visibilityChangeEventName = "msvisibilitychange") : void 0 !== document.webkitHidden && (r.hiddenPropName = "webkitHidden", r.visibilityChangeEventName = "webkitvisibilitychange"), document.addEventListener(r.visibilityChangeEventName, function () { document[r.hiddenPropName] ? r.triggerUserHasLeftPage() : r.triggerUserHasReturned() }, !1), window.addEventListener("blur", function () { r.triggerUserHasLeftPage() }), window.addEventListener("focus", function () { r.triggerUserHasReturned() }), document.addEventListener("mousemove", function () { r.resetIdleCountdown() }), document.addEventListener("keyup", function () { r.resetIdleCountdown() }), document.addEventListener("touchstart", function () { r.resetIdleCountdown() }), window.addEventListener("scroll", function () { r.resetIdleCountdown() }), setInterval(function () { r.checkState() }, r.checkStateRateMs) }, websocket: void 0, websocketHost: void 0, setUpWebsocket: function (e) { if (window.WebSocket && e) { var t = e.websocketHost; try { r.websocket = new WebSocket(t), window.onbeforeunload = function () { r.sendCurrentTime(e.appId) }, r.websocket.onopen = function () { r.sendInitWsRequest(e.appId) }, r.websocket.onerror = function (e) { console && console.log("Error occurred in websocket connection: " + e) }, r.websocket.onmessage = function (e) { console && console.log(e.data) } } catch (e) { console && console.error("Failed to connect to websocket host.  Error:" + e) } } return this }, websocketSend: function (e) { r.websocket.send(JSON.stringify(e)) }, sendCurrentTime: function (e) { var t = { type: "INSERT_TIME", appId: e, timeOnPageMs: r.getTimeOnCurrentPageInMilliseconds(), pageName: r.currentPageName }; r.websocketSend(t) }, sendInitWsRequest: function (e) { var t = { type: "INIT", appId: e }; r.websocketSend(t) }, initialize: function (e) { var t = r.idleTimeoutMs || 30, n = r.currentPageName || "default-page-name", i = void 0, s = void 0; e && (t = e.idleTimeoutInSeconds || t, n = e.currentPageName || n, i = e.websocketOptions, s = e.initialStartTime), r.setIdleDurationInSeconds(t).setCurrentPageName(n).setUpWebsocket(i).listenForVisibilityEvents(), r.startTimer(void 0, s) } }; return r }, "undefined" != typeof module && module.exports ? module.exports = t() : "function" == typeof define && define.amd ? define([], function () { return e.TimeMe = t() }) : e.TimeMe = t() }).call(this);
+
+  TimeMe.initialize({
+    currentPageName: "task",
+    idleTimeoutInSeconds: 30
+  });
+
+  $(document).ready(function () {
+    $('#submitButton').click(function () {
+      try {
+        $('input[name=ee]').attr('value', TimeMe.getTimeOnCurrentPageInSeconds());
+      } catch {
+      }
+      return true;
+    });
+  });
+
+  $(document).ready(show_hide);
+  // $(document).ready(taskAndConfideceComplete);
+  $(document).ready(submitFormWithValidation);
+
+  function show_hide() {
+    $('input[name="q3_valid"]').change(function () {
+      if (this.value == 1) {
+        $("#JustifyDiv").show();
+        $("input[type='radio'][name='q4_valid']").prop('required', true);
+      } else {
+        $("#JustifyDiv").hide();
+        $("#InfoDiv").hide();
+        $("input[type='radio'][name='q4_valid']").prop('required', false);
+        $("input[type='radio'][name='q5_valid']").prop('required', false);
+      }
+    });
+    $('input[name="q4_valid"]').change(function () {
+      if (this.value == 1) {
+        $("#InfoDiv").show();
+        $("input[type='radio'][name='q5_valid']").prop('required', true);
+      } else {
+        $("#InfoDiv").hide();
+        $("input[type='radio'][name='q5_valid']").prop('required', false);
+      }
+    });
+  }
+
+
+  // Color change for self-confidece buttons
+  function updateColor(selectedId) {
+    var container = document.querySelector('input[id="' + selectedId + '"]').closest('.likert-container');
+
+    var likertLabels = container.querySelectorAll('.likert-label');
+
+    likertLabels.forEach(function (label) {
+      label.classList.remove('likert-label-selected');
+    });
+
+    var selectedLabel = container.querySelector('label[for="' + selectedId + '"]');
+    selectedLabel.classList.add('likert-label-selected');
+  }
+
+  // Handles the "Reveal AI's Guess" button
+  function reveal(containerId) {
+    var revealButton = document.getElementById("revealButton" + containerId.slice(-1));
+    var revealContainer = document.getElementById(containerId);
+    var loadingGif = revealContainer.querySelector('.loading-gif');
+    var textInfo = revealContainer.querySelector('.text-info');
+
+    // Disable the reveal button
+    revealButton.disabled = true;
+
+    // Hide the reveal button with fade-out effect
+    revealButton.style.opacity = 0;
+
+    // Display loading GIF on top of the button
+    loadingGif.style.display = "inline";
+
+    // Hide text info if it's already displayed
+    textInfo.style.display = "none";
+
+    // Set a timeout to hide the loading GIF, reveal the text info, and re-enable the button after 3 seconds
+    setTimeout(function () {
+      loadingGif.style.display = "none";
+      textInfo.style.display = "inline";
+    }, 4800);
+
+    // Display the reveal container
+    revealContainer.style.display = "block";
+  }
+
+
+  // Clock/Timer
+  function startMyTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        timer = 0;
+      }
+      // timer++;
+
+    }, 1000);
+  }
+
+  window.onload = function () {
+
+    var timerContainer = document.getElementById('timer-container');
+    var lastScrollY = window.scrollY;
+    var startTime = performance.now();
+
+    function updateTimerPosition() {
+      var currentTime = performance.now();
+      var elapsed = currentTime - startTime;
+      var scrollSpeed = (window.scrollY - lastScrollY) / elapsed;
+
+      timerContainer.style.top = 50 + window.scrollY + 'px';
+
+      lastScrollY = window.scrollY;
+      startTime = currentTime;
+
+      requestAnimationFrame(updateTimerPosition);
+    }
+
+    // Handle scroll events
+    window.addEventListener('scroll', function () {
+      if (!startTime) {
+        startTime = performance.now();
+        lastScrollY = window.scrollY;
+        updateTimerPosition();
+      }
+    });
+  };
+
+
+  function showInstructionsAfterConsent() {
+    // You can add any additional logic here, e.g., validating the email input before proceeding
+    // Toggle the display property of the "HIT DIVISION" from none to block
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // 'smooth' provides a smooth scrolling effect
+    document.getElementById('consent-container').style.display = 'none';
+    document.getElementById('hit').style.display = 'block';
+
+    var tenMinutes = 10 * 60;
+    // var tenMinutes = 4;
+    display = document.getElementById('timer');
+    startMyTimer(tenMinutes, display);
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var emailInput = document.querySelector('.email-input');
+    var errorMessage = document.querySelector('.email-error-message');
+
+    emailInput.addEventListener('input', function () {
+      var emailValue = emailInput.value.trim();
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (emailValue === '') {
+        errorMessage.textContent = ''; // No error message if the field is empty
+      } else if (!emailRegex.test(emailValue)) {
+        errorMessage.textContent = 'Invalid email address';
+      } else {
+        errorMessage.textContent = '';
+      }
+    });
+  });
+  
+
+  function submitFormWithValidation() {
+    // Check if one option is selected from each set
+    var set1Selected = isRadioGroupSelected("me1_valid_hit");
+    var set2Selected = isRadioGroupSelected("confidence_hit");
+
+    if (set1Selected && set2Selected) {
+      // Add your logic for form submission here
+      document.getElementById('inputAssignmentId').value = urlParams.get('assignmentId');
+      document.getElementById('mturk_form').submit();
+    } else {
+      alert("Please solve the task and report your confidence level before submitting.");
+    }
+  }
+
+  // function taskAndConfideceComplete() {
+  //   $('#partButton').click(function () {
+  //     var q1_valid_sel = $("input[type='radio'][name='me1_valid_hit']:checked");
+  //     var conf_valid_sel = $("input[type='radio'][name='confidence_hit']:checked");
+
+  //     if (q1_valid_sel.length > 0 && conf_valid_sel.length > 0) {
+  //       var qqq = 1;
+  //     } else {
+  //       alert("You must complete the task in order to proceed.");
+  //     }
+
+  //   });
+  // }
+
+
+</script>
