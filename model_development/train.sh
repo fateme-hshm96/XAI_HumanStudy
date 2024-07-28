@@ -29,6 +29,9 @@ File_Src="preprocess/T5_ready_"
 TASK_NAME="scifact-open"
 TASK_NAME="contract-nli"
 
+sh data_process.py $TASK_NAME
+
+
 CHECKPOINT="/scratch/general/vast/u1420010/contract-nli/2/checkpoint-200"
 # --resume_from_checkpoint $CHECKPOINT \
 
@@ -38,7 +41,7 @@ LR=0.00001
 for MODEL in google/flan-t5-xl
 do
 echo "---> RUNNING FOR "$MODEL;
-time python3 generate_f1.py \
+time python3 src/generate_f1.py \
   --model_name_or_path $MODEL \
   --text_column "input" \
   --answer_column "choice" \
